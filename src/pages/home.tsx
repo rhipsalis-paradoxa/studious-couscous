@@ -23,19 +23,19 @@ const OnPress = () => {
         .then(data => console.log(data))
 };
 
-const HandleSubmit = (e: React.SyntheticEvent) => {
-    e.preventDefault();
+// const HandleSubmit = (e: React.SyntheticEvent) => {
+//     e.preventDefault();
     
-    const target = e.target as typeof e.target & {
-        code: {value: string};
-    };
+//     const target = e.target as typeof e.target & {
+//         code: {value: string};
+//     };
 
-    fetch('/hi', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'code': target.code.value})
-    })
-}
+//     fetch('/hi', {
+//         method: 'POST',
+//         headers: {'Content-Type': 'application/json'},
+//         body: JSON.stringify({'code': target.code.value})
+//     })
+// }
 
 const Home = () => {
     const proj1 : ProjectProp = { name: "test1", dateLastModified: "4.6.23" }
@@ -47,10 +47,10 @@ const Home = () => {
     return (
         <div className={styles.home}>
             <NavBar isOnEditor={false}/>
-            <form method="submit" onSubmit={HandleSubmit}>
+            {/* <form method="submit" onSubmit={HandleSubmit}>
                 <input name="code" type="code" />
                 <button type="submit">Submit</button>
-            </form>
+            </form> */}
             <Projects projects={projs} isOnHome={true}/>
         </div>
     );
