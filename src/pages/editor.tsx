@@ -33,11 +33,23 @@ const Editor = () => {
     );
 }
 
-function handleCompile(event: React.SyntheticEvent) {
+function handleCompile(event: { preventDefault: () => void; target: any; }) {
     event.preventDefault();
 
+    // get user input
     const form = event.target;
-    // console.log(form.innerHTML);
+    const formData = new FormData(form);
+    const formJSON = Object.fromEntries(formData.entries());
+    const userInput = formJSON['userInput'];
+    // console.log(userInput);
+
+    // PDF or MIDI
+    // TODO: Tina you gotta help me with this
+    // if (isset($_POST['PDFbutton'])) {
+    //     
+    // }
+
+
 
     // exedc("../python/transpiler.py " + e.)
 }
