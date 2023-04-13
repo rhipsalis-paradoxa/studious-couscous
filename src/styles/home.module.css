@@ -13,4 +13,9 @@
   overflow-x: hidden;
 }
 
+button {
+  margin: 10px;
+  display: inline-block;
+}
+
 /*# sourceMappingURL=home.module.css.map */
