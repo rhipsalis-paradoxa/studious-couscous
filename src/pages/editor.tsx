@@ -26,8 +26,8 @@ const Editor = () => {
                 name="userInput"
                 rows={40} cols={80}
             />
-            <button name="PDFbutton" type="submit" value="Compile to PDF" />
-            <button name="MIDIbutton" type="submit" value="Compile to MIDI" />
+            <button name="PDFbutton" type="submit" value="Compile to PDF"> compile pdf </button>
+            <button name="MIDIbutton" type="submit" value="Compile to MIDI"> midi </button>
         </form>
         </div>
     );
