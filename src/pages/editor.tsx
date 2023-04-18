@@ -25,7 +25,7 @@ const Editor = () => {
             </div>
         <p></p><p></p><p></p>
         <p></p><p>MusiCode Code</p><p>PDF Output</p><p></p>
-        <form id="userInputForm" method="post" onSubmit={handleCompile}>
+        <form id="userInputForm" method="post" onSubmit={handleCompile} action="http://localhost:5000/transpile">
             <textarea
                 name="userInput"
                 rows={39} cols={80}
@@ -59,9 +59,15 @@ function handleCompile(event: React.SyntheticEvent<HTMLFormElement>) {
         throw new Error("MusiCode cannot generate this kind of file.\n")
     }
 
-    console.log(userInput);
-    console.log(generate);
-
+    // fetch('/transpile')
+    //     .then(response => {
+    //         console.log(response);
+    //         return response.json;
+    //     })
+    //     .then(json => {
+    //         console.log(json);
+    //         this.setState({userInput: userInput, midi: generate})
+    //     });
 }
 
 export default Editor;

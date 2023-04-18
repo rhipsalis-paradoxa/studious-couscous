@@ -14,7 +14,7 @@ from lark import Transformer
 
 import math 
 
-import mc_ast
+from pyth import mc_ast
 
 
 
@@ -306,41 +306,21 @@ class MyTransformer(Transformer):
         return mc_ast.Staff(args)
 
 
-def main():
-    usage = "Usage: python3 transpiler.py musicodeFile [--midi]\n"
 
-    if len(sys.argv) < 2 or len(sys.argv) > 3:
-        sys.stderr.write(usage)
-        exit(1)
-
-    midi = False
-    if len(sys.argv) == 3:
-        if sys.argv[2] == "--midi":
-            midi = True
-        else:
-            sys.stderr.write("Invalid parameter " + sys.argv[2] + "\n" + usage)
-
-    file_dir = pathlib.Path(__file__).parents[1].joinpath('grammar', 'grammar.lark').resolve()
+def transpile(user_input: str = "(title \"Bigtime Error\")", midi=False) -> str:
+    file_dir = pathlib.Path(__file__).parent.joinpath('grammar.lark').resolve()
     grammar_file = open(file_dir, "r")
     parser = lark.Lark(grammar_file.read())
     
-    musicode_file = open(sys.argv[1], "r")
-    tree = parser.parse(musicode_file.read())
+    tree = parser.parse(user_input)
     result = MyTransformer().transform(tree)
 
     errors = result.validate()
     for e in errors:
         print('***', e)
 
-    lilypond_file = sys.argv[1][:-3] + ".ly"
-    file_object = open(lilypond_file, "w+")
-    file_object.write(result.render(midi))
-    file_object.close()
+    return result.render(midi)
 
-
-
-if __name__ == '__main__':
-    main()
 
 
 # 'system' function in 'os' package runs something as if it's running from the command line
