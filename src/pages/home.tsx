@@ -117,10 +117,6 @@ const Home = () => {
     return (
         <div className={styles.home}>
             <SideBar isOnEditor={false} addNewProject={addProject}/>
-            {/* <form method="submit" onSubmit={HandleSubmit}>
-                <input name="code" type="code" />
-                <button type="submit">Submit</button>
-            </form> */}
             <Projects projects={projects} isOnHome={true} handleDelete={deleteProject} 
                       updateDate={updateDate}/>
         </div>

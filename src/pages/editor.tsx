@@ -59,15 +59,11 @@ function handleCompile(event: React.SyntheticEvent<HTMLFormElement>) {
         throw new Error("MusiCode cannot generate this kind of file.\n")
     }
 
-    // fetch('/transpile')
-    //     .then(response => {
-    //         console.log(response);
-    //         return response.json;
-    //     })
-    //     .then(json => {
-    //         console.log(json);
-    //         this.setState({userInput: userInput, midi: generate})
-    //     });
+    fetch('http://localhost:5000/transpile', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({'user_input': userInput.toString(), 'generate': generate})
+    }).then(res => {return res.json().then(data => console.log(data))});
 }
 
 export default Editor;
