@@ -1,3 +1,13 @@
+.logo {
+  background-color: #303F9F;
+  width: 100%;
+}
+
+.img {
+  width: 100%;
+  height: 100%;
+}
+
 .navBar {
   background-color: #303F9F;
   color: #EFF1FF;
@@ -6,6 +16,8 @@
   grid-area: nav;
   display: flex-block;
   align-self: stretch;
+  padding-top: 3em;
+  height: 100vh;
 }
 
 .navactive, .nav {

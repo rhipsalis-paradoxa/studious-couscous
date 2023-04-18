@@ -13,16 +13,23 @@
   padding: 0.7em 0.7em 0.7em 1em;
   height: 1.5em;
   width: auto;
+  pointer-events: auto;
 }
 
 .actions, .projectdate, .projecttitle {
   display: inline-block;
+  vertical-align: center;
   width: 34%;
 }
 
 .projecttitle {
   grid-row-start: 2;
   grid-row-end: 3;
+}
+
+.projecttitle:hover {
+  cursor: pointer;
+  pointer-events: auto;
 }
 
 .projectdate {
@@ -39,10 +46,11 @@
 }
 
 .header {
-  display: inline-block;
+  vertical-align: center;
   font-size: 1.2em;
   grid-area: header;
   padding-left: 1.2em;
+  padding-top: 2.5em;
 }
 
 /*# sourceMappingURL=projects.module.css.map */

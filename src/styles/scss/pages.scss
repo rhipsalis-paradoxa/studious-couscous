@@ -1,0 +1,10 @@
+@use 'base';
+
+.home {
+    @include base.grid-display;
+}
+
+
+.editor {
+    @include base.editor-display;
+} 

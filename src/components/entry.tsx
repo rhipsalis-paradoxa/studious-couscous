@@ -5,7 +5,7 @@ import React from "react";
 const Entry = (project: ProjectProp) => {
     return (
         <div>
-            <a> {project.name} </a>            <a> {project.dateLastModified}</a>
+            <a> {project.name} </a>
         </div>
     );
 }

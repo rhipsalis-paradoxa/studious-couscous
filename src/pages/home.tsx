@@ -1,57 +1,128 @@
-import React, { useState } from "react";
+import React from "react";
 import Projects from "../components/projects";
-import NavBar from "../components/sideNavBar";
+import SideBar from "../components/sideBar";
 import styles from "../styles/home.module.css"
+import { v4 as uuidv4 } from 'uuid';
 
 // import { ProjectProp } from "../components/projects";
 
-type ProjectProp = {
+interface ProjectProp {
     name: string,
-    dateLastModified: string,
+    dateLastModified: Date,
+    id?: string;
+    code?: string;
 }
 
-type ProjectList = ProjectProp[];
 
-const OnPress = () => {
-    const order = 'avocado'
-    
-    fetch('/hi', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'order': order})
-    }).then(res => res.json())
-        .then(data => console.log(data))
-};
+/* 
+Sorts date in descending orders (most recently accessed first)
+Updates 
+*/
+const sortDate = (project1: ProjectProp, project2: ProjectProp) => {
+    const proj1Time = (new Date(project1.dateLastModified)).getTime(); 
+    const proj2Time = (new Date(project2.dateLastModified)).getTime(); 
+    return (proj2Time - proj1Time);
+}
 
-// const HandleSubmit = (e: React.SyntheticEvent) => {
-//     e.preventDefault();
-    
-//     const target = e.target as typeof e.target & {
-//         code: {value: string};
-//     };
-
-//     fetch('/hi', {
-//         method: 'POST',
-//         headers: {'Content-Type': 'application/json'},
-//         body: JSON.stringify({'code': target.code.value})
-//     })
-// }
 
 const Home = () => {
-    const proj1 : ProjectProp = { name: "test1", dateLastModified: "4.6.23" }
-    const proj2 : ProjectProp = { name: "test2", dateLastModified: "4.4.23" }
-    const proj3 : ProjectProp = { name: "test3", dateLastModified: "2.4.23" }
 
-    const projs = [proj1, proj2, proj3]
+    const initial: ProjectProp[] = [];
+
+    const [projects, setProjects] = React.useState( () => {
+        // save all projects in local storage so we don't lose everything.... 
+        const item = JSON.parse(localStorage.getItem('projects')!)
+        return item || initial;
+    });
+    
+    React.useEffect(() => {
+        localStorage.setItem('projects', JSON.stringify(projects));
+    }, [projects]);
+
+
+    // delete a project by filtering it out with the ID
+    const deleteProject = (toDelete: ProjectProp) => {
+        // filter out the project to delete 
+        console.log(toDelete)
+        const updatedProjects: ProjectProp[] = (projects.filter((proj: ProjectProp) => proj.id != toDelete.id))
+
+        localStorage.setItem('projects', JSON.stringify(updatedProjects));
+        setProjects(updatedProjects);
+
+        // get the current list of deleted projects and add the new one two it
+        const initialDeleted: ProjectProp[] = []
+        const deletedProjects: ProjectProp[] = JSON.parse(localStorage.getItem('deleted-projects')!) || initialDeleted;
+
+        const updatedDeletedProjects: ProjectProp [] = [
+            toDelete, 
+            ...deletedProjects 
+        ]
+        localStorage.setItem('deleted-projects', JSON.stringify(updatedDeletedProjects));
+
+    }
+
+    // when user accesses a project, replace the date 
+    const updateDate = (project: ProjectProp) => {
+
+        /**
+         * Replace the project with updated date 
+         */
+        const toReplaceId = project.id
+        const updatedProject = {
+            name: project.name,
+            dateLastModified: new Date(), 
+            id: project.id,
+            code: project.code
+        }
+        /*
+         *  Replace the project with the updated Date 
+         */
+        let updatedProjects: ProjectProp[] = (projects.map((project: ProjectProp) => {
+            if(project.id == toReplaceId) {
+                return updatedProject 
+            } else {
+                return project
+            }
+        }))
+
+        updatedProjects = updatedProjects.sort(sortDate)
+
+        console.log(updatedProjects);
+        localStorage.setItem('projects', JSON.stringify(updatedProjects));
+        setProjects(updatedProjects)
+    }
+
+    /*
+        Creates a new project
+        Adds it to local storage 
+        Adds it to list 
+     */
+    const addProject = (title: string) => {
+        //const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        const updatedProjects: ProjectProp[] = [
+            {
+                name: title, 
+                dateLastModified: new Date(),
+                id: uuidv4().toString(),
+                code: ""
+            },
+            ...projects
+        ];
+        localStorage.setItem('projects', JSON.stringify(updatedProjects));
+        setProjects(updatedProjects);
+    }
+
+
 
     return (
         <div className={styles.home}>
-            <NavBar isOnEditor={false}/>
+            <SideBar isOnEditor={false} addNewProject={addProject}/>
             {/* <form method="submit" onSubmit={HandleSubmit}>
                 <input name="code" type="code" />
                 <button type="submit">Submit</button>
             </form> */}
-            <Projects projects={projs} isOnHome={true}/>
+            <Projects projects={projects} isOnHome={true} handleDelete={deleteProject} 
+                      updateDate={updateDate}/>
         </div>
     );
 

@@ -1,0 +1,13 @@
+
+@use 'base';
+
+.header {
+    display: inline-block;
+    background-color: base.$primary-color;
+    grid-area: bar;
+    width: auto;
+    height: 100%;
+    color: base.$light-textcolor;
+    font-size: 2em;
+    padding-left: 40px;
+}

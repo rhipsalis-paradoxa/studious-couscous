@@ -1,7 +1,7 @@
 import React, { FormEventHandler } from "react";
 import { useParams } from "react-router-dom";
 
-import NavBar from "../components/sideNavBar";
+import SideBar from "../components/sideBar";
 
 import styles from "../styles/home.module.css";
 
@@ -11,9 +11,14 @@ const Editor = () => {
     const { title } = useParams();
     console.log(title);
 
+    const test = (thing: string) => {
+        console.log("heyyy hi lmao omg hiiiii ")
+        console.log(thing)
+    }
+
     return (
         <div className={styles.home}>
-            <NavBar isOnEditor={true}/>
+            <SideBar isOnEditor={true} addNewProject={test}/>
             <div>
                 <h2> EDITOR </h2> 
                 <a> {title} </a>

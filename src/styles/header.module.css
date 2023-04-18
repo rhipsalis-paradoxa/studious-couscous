@@ -1,0 +1,12 @@
+.header {
+  display: inline-block;
+  background-color: #303F9F;
+  grid-area: bar;
+  width: auto;
+  height: 100%;
+  color: #EFF1FF;
+  font-size: 2em;
+  padding-left: 40px;
+}
+
+/*# sourceMappingURL=header.module.css.map */

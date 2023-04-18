@@ -1,21 +1,19 @@
 import React from "react";
-import styles from "../styles/button.module.css";
+import styles from "./button.module.css"
 import { useNavigate } from "react-router-dom";
 
 export interface buttonProps {
-    text: string;
-    onEditor: boolean
-    //title: string;
+    handleClick: () => void;
+    text: string
+    inline?: boolean;
 }
 
-const ActionButton = (props:buttonProps) => {
-    //pass title in as part of button props 
-    const path = props.onEditor ? "/" : "/editor";
-    const navigate = useNavigate();
-    const text = props.text;
+const ActionButton = ({handleClick, text, inline}: buttonProps) => {
+
+    const style = inline ? styles.inlineButton : styles.navButton
     return (
-        <button className={styles.navButton}
-                onClick={() => navigate(path)}> {text} </button>
+        <button className={styles.borkButton}
+                onClick={() => handleClick()}> {text} </button>
     );
 } 
 

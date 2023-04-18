@@ -12,12 +12,37 @@
     font-size: base.$button-fontsize;
 }
 
-.iconButton {
-    background-color: #FFFF;
+.borkButton{
+    background: #FFFFFF;
+    // box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 50px;
+    text-align: center ;
+    padding: 1em;
+    margin: 1em 1em 1em 1em;
+    width: 80%;
+    font-family: base.$font-stack;
+    font-size: base.$button-fontsize;
     display: inline-block;
+    background-color: aqua;
+}
+
+.navButton:hover{
+    cursor:pointer;
+}
+
+.iconButton {
+   //  background-color: #FFFF;
+    // display: grid;
+    align-items: center;
     vertical-align: margin-top;
     padding-right: 2em;
     margin-right: 3em;
+    height: 30px;
+    width: 30px;
+}
+
+.icon {
+    align-items: center;
     height: 30px;
     width: 30px;
 }

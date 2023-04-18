@@ -13,10 +13,12 @@
     padding: .7em .7em .7em 1em;
     height: 1.5em;
     width: auto;
+    pointer-events: auto;
 }
 
 %projecttext {
     display: inline-block;
+    vertical-align: center;
     width: 34%;
 }
 
@@ -24,6 +26,11 @@
     @extend %projecttext;
     grid-row-start: 2;
     grid-row-end: 3;
+}
+
+.projecttitle:hover {
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 .projectdate{
@@ -42,11 +49,13 @@
 }
 
 .header {
-    display: inline-block;
+    //display: inline-block;
     //width: auto;
+    vertical-align: center;
     font-size: b.$header-fontsize;
     grid-area: header;
     padding-left: 1.2em;
+    padding-top: 2.5em;
 }
 
 

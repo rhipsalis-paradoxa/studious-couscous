@@ -1,11 +1,24 @@
 @use 'base' as b;
 
 
+.logo {
+    background-color: b.$primary-color;
+    width: 100%;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+}
+
+
 .navBar {
     @include b.dark-basics;
     grid-area: nav;
     display: flex-block;
     align-self: stretch;
+    padding-top: 3em;
+    height: 100vh;
 }
 
 %NavLink {

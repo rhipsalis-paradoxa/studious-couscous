@@ -3,8 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import Editor from "./editor";
 import Home from "./home";
 import React from "react";
-import { isPropertySignature } from "typescript";
-import RecentlyDeleted from "./recentlyDeleted";
+import RecentlyDeleted from "./recently-deleted";
 
   
 
@@ -14,7 +13,7 @@ const AllRoutes = () => {
     <>
       <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/editor" element={<Editor/>}/>
+      <Route path="/editor/:title" element={<Editor/>}/>
       <Route path="/recently-deleted" element={<RecentlyDeleted/>}/>
       </Routes>
     </>
