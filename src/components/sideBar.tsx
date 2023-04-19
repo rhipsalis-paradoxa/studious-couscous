@@ -10,6 +10,7 @@ import styles from "../styles/navBar.module.css";
 
 interface sideBarProps {
     isOnEditor: boolean
+	openModal?: () => void,
 	addNewProject?: (projectTitle: string)  => void
 }
 
@@ -32,30 +33,12 @@ const SideBar = (props: sideBarProps) => {
 		onEditor:true
 	}
 
-	const [modal, setModal] = React.useState(false);
-	const addProject = props.addNewProject!
-
-	// create project:
-	// 	> get name entered 
-	// 	> add project to project state using addNewProject function 
-	// 	> navigate to path
-
-	const handleCreateAndAdd = (title: string) => {
-		addProject(title);
-	}
-
-	const closeModal = () => {
-		setModal(!modal)
-	}
-
-    const openModal = () => setModal(!modal);
-
 	if (props.isOnEditor) {
 		return (
 			// side bar on the editor page 
 			<nav className={styles.navBar}>
 				<div className={styles.logo}>
-                	<img className={styles.img} src={Logo} alt="why" />
+                	<img className={styles.img} src={Logo} alt="" />
             	</div>
 				<NavButton text={backButton.text}
 							  onEditor={backButton.onEditor}/>
@@ -68,10 +51,9 @@ const SideBar = (props: sideBarProps) => {
 				<div className={styles.logo}>
                 	<img className={styles.img} src={Logo} alt="why" />
             	</div>
-					<Modal show={modal} handleClose={closeModal} handleAddProject={handleCreateAndAdd}/>
 					<NewProjectButton text={newProjButton.text}
 								  onEditor={newProjButton.onEditor}
-								  openModal={openModal}
+								  openModal={props.openModal!}
 					/>
 					<StyledNavLink text="Projects" slug="/" />
 					<StyledNavLink text="Recently Deleted" slug="/recently-deleted" />
