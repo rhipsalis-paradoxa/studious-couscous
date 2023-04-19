@@ -1,15 +1,23 @@
-import React, { FormEventHandler } from "react";
+import React, { FormEventHandler, useState } from "react";
+import { Document, Page, pdfjs } from 'react-pdf/dist/esm/entry.webpack';
 import { useParams } from "react-router-dom";
 
 import SideBar from "../components/sideBar";
 
 import styles from "../styles/home.module.css";
 
+pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
+
 // if this is a page we have to pass the info in 
 // as a param along with the route  
 const Editor = () => {
     const { title } = useParams();
-    console.log(title);
+    const [numPages, setNumPages] = useState(null);
+    const [pageNumber, setPageNumber] = useState(1);
+
+    function onDocumentLoadSuccess({ numPages }: any) {
+        setNumPages(numPages);
+      }
 
     const test = (thing: string) => {
         console.log("heyyy hi lmao omg hiiiii ")
@@ -24,7 +32,7 @@ const Editor = () => {
                 <a> {title} </a>
             </div>
         <p></p><p></p><p></p>
-        <p></p><p>MusiCode Code</p><p>PDF Output</p><p></p>
+        <p>MusiCode Code</p><p>PDF Output</p><p></p>
         <form id="userInputForm" method="post" onSubmit={handleCompile} action="http://localhost:5000/transpile">
             <textarea
                 name="userInput"
@@ -32,7 +40,19 @@ const Editor = () => {
             />
             <button name="PDFbutton" type="submit"> Generate PDF </button>
             <button name="MIDIbutton" type="submit"> Generate MIDI </button>
+            <p id="transpiler_error"></p>
         </form>
+        <Document file={"./my_song.pdf"} onLoadSuccess={onDocumentLoadSuccess}>
+            <Page pageNumber={pageNumber} />
+        </Document>
+        {/* <p>
+            Page {pageNumber} of {numPages}
+        </p> */}
+        {/* <iframe
+            title="file"
+            style={{ width: '100%', height: '100%' }}
+            src="./my_song.pdf"
+        /> */}
         </div>
     );
 }
@@ -63,7 +83,11 @@ function handleCompile(event: React.SyntheticEvent<HTMLFormElement>) {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({'user_input': userInput.toString(), 'generate': generate})
-    }).then(res => {return res.json().then(data => console.log(data))});
+    }).then(res => {return res.json().then(handleTranspiledData)});
+}
+
+function handleTranspiledData(data: any) {
+    document.getElementById('transpiler_error')!.innerText = data['error'];
 }
 
 export default Editor;

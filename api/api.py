@@ -19,14 +19,19 @@ def flask_transpile_page():
     is_midi = True
     if request.get_json()['generate'] == "PDF":
         is_midi = False
-    # TODO: report any errors from line below
-    ly_code = transpiler.transpile(user_input=user_input, midi=is_midi)
-    with open('my_song.ly', 'w') as f:
-        f.write(ly_code)
 
-    # lilypond -> PDF/MIDI
-    ly_exec = pathlib.Path(__file__).parents[1]
-    ly_exec = ly_exec.joinpath('lilypond-2.24.1', 'bin', 'lilypond.exe').resolve()
-    os.system('"' + str(ly_exec) + '" my_song.ly')
+    error = ""
+    try:
+        ly_code = transpiler.transpile(user_input=user_input, midi=is_midi)
+    except Exception as e:
+        error = str(e)
+    else:
+        with open('my_song.ly', 'w') as f:
+            f.write(ly_code)
 
-    return {'midi': is_midi}
+        # lilypond -> PDF/MIDI
+        ly_exec = pathlib.Path(__file__).parents[1]
+        ly_exec = ly_exec.joinpath('lilypond-2.24.1', 'bin', 'lilypond.exe').resolve()
+        os.system('"' + str(ly_exec) + '" my_song.ly')
+    finally:
+        return {'midi': is_midi, 'error': error}
