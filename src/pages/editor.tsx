@@ -48,11 +48,11 @@ const Editor = () => {
         {/* <p>
             Page {pageNumber} of {numPages}
         </p> */}
-        {/* <iframe
+        {<iframe
             title="file"
             style={{ width: '100%', height: '100%' }}
-            src="./my_song.pdf"
-        /> */}
+            src="/my_song.pdf"
+        />}
         </div>
     );
 }
