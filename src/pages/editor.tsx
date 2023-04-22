@@ -93,14 +93,6 @@ const Editor = () => {
         <Document file={"./my_song.pdf"} onLoadSuccess={onDocumentLoadSuccess}>
             <Page pageNumber={pageNumber} />
         </Document>
-        {/* <p>
-            Page {pageNumber} of {numPages}
-        </p> */}
-        {<iframe
-            title="file"
-            style={{ width: '100%', height: '100%' }}
-            src="/my_song.pdf"
-        />}
         </div>
     );
 }

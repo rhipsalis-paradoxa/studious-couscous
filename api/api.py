@@ -30,9 +30,9 @@ def flask_transpile_page():
             f.write(ly_code)
 
         # lilypond -> PDF/MIDI
-        #ly_exec = pathlib.Path(__file__).parents[1]
-        #ly_exec = ly_exec.joinpath('lilypond-2.24.1', 'bin', 'lilypond.exe').resolve()
-        ly_exec = "/usr/local/bin/lilypond" # TODO: detect lilypond dynamically
-        os.system('"' + str(ly_exec) + '" my_song.ly')
+        ly_exec = pathlib.Path(__file__).parents[1]
+        ly_exec = ly_exec.joinpath('lilypond-2.24.1', 'bin', 'lilypond.exe').resolve()
+        # ly_exec = "/usr/local/bin/lilypond" # TODO: detect lilypond dynamically
+        os.system('"' + str(ly_exec) + '" -o ../public/my_song my_song.ly')
     finally:
         return {'midi': is_midi, 'error': error}
