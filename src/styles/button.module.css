@@ -7,19 +7,7 @@
   width: 80%;
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 1em;
-}
-
-.borkButton {
-  background: #FFFFFF;
-  border-radius: 50px;
-  text-align: center;
-  padding: 1em;
-  margin: 1em 1em 1em 1em;
-  width: 80%;
-  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
-  font-size: 1em;
   display: inline-block;
-  background-color: aqua;
 }
 
 .navButton:hover {
@@ -28,15 +16,12 @@
 
 .iconButton {
   align-items: center;
-  vertical-align: margin-top;
-  padding-right: 2em;
   margin-right: 3em;
-  height: 30px;
-  width: 30px;
+  padding-right: 0.1em;
+  padding-left: 0.1em;
 }
 
 .icon {
-  align-items: center;
   height: 30px;
   width: 30px;
 }

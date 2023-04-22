@@ -59,7 +59,7 @@ const Projects = (props: ProjectsList) => {
             <div className={styles.header}>
                 <div className={styles.projecttitle}> Project Name </div>
                 <div className={styles.projectdate}> {dateHeader} </div>
-                <div className={styles.actions}> Actions </div>
+                <div className={styles.actionHeader}> Actions </div>
             </div>
             <div className={styles.projs}>
                 {entries}
@@ -115,7 +115,7 @@ interface EntryProps {
 const ProjectEntry = ({project, isOnHome, updateDate, handleDelete, handleRecover, handleCopy, handleRename}: EntryProps) => {
     const name = project.name 
     const dateLastModified = project.dateLastModified
-    let path = "/editor/" + name;
+    let path = "/editor/" + name + "/" + project.id;
     const navigate = useNavigate();
     const onClick = () => {
         updateDate(project);

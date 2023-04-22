@@ -9,9 +9,11 @@ import Modal from "./modal";
 import styles from "../styles/navBar.module.css";
 
 interface sideBarProps {
-    isOnEditor: boolean
+    isOnEditor?: boolean
+	isOnDeleted?: boolean
 	openModal?: () => void,
-	addNewProject?: (projectTitle: string)  => void
+	addNewProject?: (projectTitle: string)  => void,
+	updateProjectCode?: () => void
 }
 
 // interface navLinkProps {
@@ -23,15 +25,8 @@ interface sideBarProps {
 // TODO make wrapper for navlink
 
 const SideBar = (props: sideBarProps) => {
-	const newProjButton: buttonProps  = {
-		text: "New Project",
-		onEditor: props.isOnEditor,
-	}
 
-	const backButton : buttonProps = {
-		text: "Back to Files",
-		onEditor:true
-	}
+
 
 	if (props.isOnEditor) {
 		return (
@@ -40,10 +35,20 @@ const SideBar = (props: sideBarProps) => {
 				<div className={styles.logo}>
                 	<img className={styles.img} src={Logo} alt="" />
             	</div>
-				<NavButton text={backButton.text}
-							  onEditor={backButton.onEditor}/>
+				<NavButton text="Back to Files" handleClick={props.updateProjectCode!}/>
 			</nav>
 		); 
+	} else if (props.isOnDeleted) {
+		return (
+			// side bar on the home screen
+			<nav className={styles.navBar}>
+			<div className={styles.logo}>
+				<img className={styles.img} src={Logo} alt="why" />
+			</div>
+				<StyledNavLink text="Projects" slug="/" />
+				<StyledNavLink text="Recently Deleted" slug="/recently-deleted" />
+			</nav>
+		);
 	} else {
 		return (
 				// side bar on the home screen
@@ -51,8 +56,8 @@ const SideBar = (props: sideBarProps) => {
 				<div className={styles.logo}>
                 	<img className={styles.img} src={Logo} alt="why" />
             	</div>
-					<NewProjectButton text={newProjButton.text}
-								  onEditor={newProjButton.onEditor}
+					<NewProjectButton text="New Project"
+								  onEditor={false}
 								  openModal={props.openModal!}
 					/>
 					<StyledNavLink text="Projects" slug="/" />

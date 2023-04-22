@@ -99,7 +99,7 @@ const RecentlyDeleted = () => {
 
     return (
         <div className={styles.home}>
-            <SideBar isOnEditor={true}/>
+            <SideBar isOnDeleted={true}/>
             {/* <form method="submit" onSubmit={HandleSubmit}>
                 <input name="code" type="code" />
                 <button type="submit">Submit</button>

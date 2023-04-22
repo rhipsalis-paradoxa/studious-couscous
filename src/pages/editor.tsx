@@ -1,38 +1,86 @@
 import React, { FormEventHandler, useState } from "react";
 import { Document, Page, pdfjs } from 'react-pdf/dist/esm/entry.webpack';
 import { useParams } from "react-router-dom";
+import { ProjectProp } from "../components/projects";
 
 import SideBar from "../components/sideBar";
 
-import styles from "../styles/home.module.css";
+import styles from "../styles/editor.module.css";
+import buttonStyles from "../styles/button.module.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 // if this is a page we have to pass the info in 
 // as a param along with the route  
 const Editor = () => {
-    const { title } = useParams();
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
 
     function onDocumentLoadSuccess({ numPages }: any) {
         setNumPages(numPages);
       }
+    const { title, id } = useParams();
+    console.log(title);
+    console.log(id);
 
-    const test = (thing: string) => {
-        console.log("heyyy hi lmao omg hiiiii ")
-        console.log(thing)
+    // const projects = JSON.parse(localStorage.getItem('projects')!)
+    // const theProject = projects.find((proj: ProjectProp) => proj.id == id);
+    // const currentProject = 
+
+    const [code, setCode] = React.useState(() => {
+        // save all projects in local storage so we don't lose everything.... 
+        const projects = JSON.parse(localStorage.getItem('projects')!)
+        const currProject = projects.find((proj: ProjectProp) => proj.id == id);
+        console.log(currProject);
+        if (currProject == undefined) {
+            return ""
+        } else {
+            return currProject.code;
+        }
+        
+    });
+
+    const handleChange = (event: any) => {
+        setCode(event.target.value);
+    } 
+
+
+    const updateProjectCode = () => {
+        const projects = JSON.parse(localStorage.getItem('projects')!)
+        const toUpdate = projects.find((proj: ProjectProp) => proj.id == id);
+        console.log("grabbing code ", toUpdate);
+
+        const updatedProject: ProjectProp = {
+            name: toUpdate.name, 
+            dateLastModified: toUpdate.dateLastModified, 
+            id: toUpdate.id, 
+            code: code
+        }
+
+        const updatedProjects: ProjectProp[] = (projects.map((project: ProjectProp) => {
+            if(project.id == id) {
+                return updatedProject 
+            } else {
+                return project
+            }
+        }))
+        localStorage.setItem('projects', JSON.stringify(updatedProjects));
     }
 
+
+    // on navigate back we have to save it wahhhhh 
+
+    // React.useEffect(() => {
+    //     localStorage.setItem('projects', JSON.stringify(projects));
+    // }, [projects]);
+
+
     return (
-        <div className={styles.home}>
-            <SideBar isOnEditor={true} addNewProject={test}/>
-            <div>
-                <h2> EDITOR </h2> 
-                <a> {title} </a>
+        <div className={styles.editorPage}>
+            <SideBar isOnEditor={true} updateProjectCode={updateProjectCode}/>
+            <div className={styles.projectTitle}>
+                <div className={styles.projectText}>{title}</div>
             </div>
-        <p></p><p></p><p></p>
-        <p>MusiCode Code</p><p>PDF Output</p><p></p>
         <form id="userInputForm" method="post" onSubmit={handleCompile} action="http://localhost:5000/transpile">
             <textarea
                 name="userInput"
@@ -57,9 +105,16 @@ const Editor = () => {
     );
 }
 
+
+
+const Header = () => {
+
+}
+
+
+
 function handleCompile(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
-
     // get user input
     const form = event.target;
     const formData = new FormData(form as HTMLFormElement);

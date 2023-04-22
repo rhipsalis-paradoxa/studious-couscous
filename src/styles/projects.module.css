@@ -10,19 +10,24 @@
   border-width: 0 0.2em 0.6em 0.5em;
   border-style: solid;
   border-color: #FFFFFF;
-  padding: 0.7em 0.7em 0.7em 1em;
-  height: 1.5em;
+  padding: 1rem;
   width: auto;
   pointer-events: auto;
+  overflow: hidden;
+  white-space: nowrap;
+  margin: auto;
 }
 
 .actions, .projectdate, .projecttitle {
-  display: inline-block;
-  vertical-align: center;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   width: 34%;
+  overflow: hidden;
+  margin: auto;
 }
 
 .projecttitle {
+  display: inline-block;
   grid-row-start: 2;
   grid-row-end: 3;
 }
@@ -33,16 +38,24 @@
 }
 
 .projectdate {
+  display: inline-block;
   grid-column-start: 3;
   grid-column-end: 4;
 }
 
 .actions {
   grid-column-start: 4;
-  justify-content: right;
+  vertical-align: center;
+  grid-column-end: 5;
   display: inline-block;
-  padding: 0 2em 0 2em;
-  position: absolute;
+  margin: auto;
+}
+
+.actionHeader {
+  grid-column-start: 4;
+  vertical-align: center;
+  top: margin-top;
+  display: inline-block;
 }
 
 .header {
@@ -50,7 +63,7 @@
   font-size: 1.2em;
   grid-area: header;
   padding-left: 1.2em;
-  padding-top: 2.5em;
+  padding-top: 2rem;
 }
 
 /*# sourceMappingURL=projects.module.css.map */

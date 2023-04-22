@@ -4,9 +4,8 @@
   bottom: 0;
   left: 0;
   right: 0;
-  background-color: rgba(0, 0, 0, 0.35);
-  justify-content: center;
-  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(10px);
 }
 .modalContainer .modal {
   width: 30vw;
@@ -18,8 +17,24 @@
   top: 40%;
   left: 40%;
   background-color: rgba(255, 255, 255, 0.35);
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(2px);
   box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 0.2);
+}
+
+.header {
+  position: relative;
+  padding-bottom: 1rem;
+  color: white;
+}
+
+.input {
+  height: 2em;
+  font-size: 20px;
+}
+
+.footer {
+  padding: 1rem 0;
+  padding-bottom: 0;
 }
 
 /*# sourceMappingURL=modal.module.css.map */

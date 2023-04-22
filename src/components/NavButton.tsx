@@ -5,18 +5,23 @@ import { useNavigate } from "react-router-dom";
 
 export interface buttonProps {
     text: string;
-    onEditor?: boolean
+    handleClick: () => void
 }
 
 
 const NavButton = (props:buttonProps) => {
-    const path = props.onEditor ? "/" : "/editor/newproj";
+    const path = "/"
     const navigate = useNavigate();
+
+    const onClick = () => {
+        props.handleClick();
+        navigate(path)
+    }
 
     const text = props.text;
     return (
         <button className={styles.navButton}
-                onClick={() => navigate(path)}> {text} </button>
+                onClick={onClick}> {text} </button>
     );
 } 
 

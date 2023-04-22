@@ -96,14 +96,15 @@ const Modal = ({show, handleClose, handleAddProject, handleCopy, handleRename, i
                 ?
                 <div className={styles.modalContainer}>
                     <div className={styles.modal}> 
-                        <div>{ModalInfo.modalText}</div>
-                        <input name="project-title" placeholder="Enter a project name..." value={title} onChange={handleChange}/>
+                        <div className={styles.header}>{ModalInfo.modalText}</div>
                         <div>
+                        <input className={styles.input} name="project-title" placeholder="Enter a project name..." value={title} onChange={handleChange}/>
+                        </div>
+                        <div className={styles.footer}>
                             <ActionButton handleClick={ModalInfo.buttonDeny} text={ModalInfo.buttonDenyText} inline={true}/> 
                             <ActionButton handleClick={ModalInfo.buttonConfirm} text={ModalInfo.buttonConfirmText} inline={true}/>
                         </div>
                     </div> 
-
                 </div>
                 : null
             }

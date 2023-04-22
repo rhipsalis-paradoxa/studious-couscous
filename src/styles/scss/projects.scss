@@ -10,21 +10,30 @@
     border-width: 0 .2em .6em .5em;
     border-style: solid;
     border-color: #FFFFFF;
-    padding: .7em .7em .7em 1em;
-    height: 1.5em;
+    padding: 1rem;
     width: auto;
     pointer-events: auto;
+    //position: relative;
+    overflow: hidden;
+    white-space: nowrap;
+    margin: auto;
+    //display: flex;
+   // align-items: stretch;
 }
 
 %projecttext {
-    display: inline-block;
-    vertical-align: center;
+    // display: inline-block;
+    // vertical-align: center;
     text-overflow: ellipsis;
+    white-space: nowrap;
     width: 34%;
+    overflow: hidden;
+    margin: auto;
 }
 
 .projecttitle {
     @extend %projecttext;
+    display: inline-block;
     grid-row-start: 2;
     grid-row-end: 3;
 }
@@ -36,6 +45,7 @@
 
 .projectdate{
     @extend %projecttext;
+    display: inline-block;
     grid-column-start: 3;
     grid-column-end: 4;
 }
@@ -43,10 +53,26 @@
 .actions{
     @extend %projecttext;
     grid-column-start: 4;
-    justify-content: right;
+    vertical-align: center;
+    //top: margin-top;
+    grid-column-end: 5;
     display: inline-block;
-    padding: 0 2em 0 2em;
-    position: absolute;
+    margin: auto;
+    //position:absolute;
+    //height: 2em;
+    // position: relative;
+}
+
+.actionHeader {
+    // @extend %projecttext;
+    grid-column-start: 4;
+    vertical-align: center;
+    top: margin-top;
+    // grid-column-end: 5;
+    //justify-content: right;
+    display:inline-block;
+    //position:absolute;
+    //height: 2em;
 }
 
 .header {
@@ -56,7 +82,9 @@
     font-size: b.$header-fontsize;
     grid-area: header;
     padding-left: 1.2em;
-    padding-top: 2.5em;
+    padding-top: 2rem;
+    // position: absolute;
+    //padding-top: 2.5em;
 }
 
 
