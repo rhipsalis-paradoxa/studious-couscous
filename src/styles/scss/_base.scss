@@ -58,6 +58,6 @@ $header-fontsize: 1.2em;
     grid-template-columns: [left] 14em [vert-div] repeat(2, minmax(200px, 1fr));
     grid-template-areas: 
         "nav bar bar"
-        "nav header header"
+        "nav editor header"
         "nav editor output";
 }

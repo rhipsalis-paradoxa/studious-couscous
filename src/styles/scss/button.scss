@@ -13,19 +13,19 @@
     display: inline-block;
 }
 
-// .borkButton{
-//     background: #FFFFFF;
-//     // box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
-//     border-radius: 50px;
-//     text-align: center ;
-//     padding: 1em;
-//     margin: 1em 1em 1em 1em;
-//     width: 80%;
-//     font-family: base.$font-stack;
-//     font-size: base.$button-fontsize;
-//     display: inline-block;
-//     background-color: aqua;
-// }
+.lineButton {
+    background: #FFFFFF;
+    // box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 30px;
+    text-align: center ;
+    padding: .5em;
+    height: 50%;
+    //margin: 1em 1em 1em 1em;
+    font-family: base.$font-stack;
+    font-size: base.$button-fontsize;
+    //display: inline-block;
+}
+
 
 .navButton:hover{
     cursor:pointer;
@@ -44,11 +44,3 @@
     height: 30px;
     width: 30px;
 }
-
-// .confirm {
-
-// }
-
-// .cancel {
-
-// }
