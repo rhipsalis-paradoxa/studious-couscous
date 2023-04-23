@@ -1,5 +1,6 @@
 import React, { FormEventHandler, useState } from "react";
 import { Document, Page, pdfjs } from 'react-pdf/dist/esm/entry.webpack';
+import "react-pdf/dist/esm/Page/TextLayer.css";
 import { useParams } from "react-router-dom";
 import { ProjectProp } from "../components/projects";
 
@@ -93,6 +94,7 @@ const Editor = () => {
         <Document file={"./my_song.pdf"} onLoadSuccess={onDocumentLoadSuccess}>
             <Page pageNumber={pageNumber} />
         </Document>
+        <iframe src="./my_song.mid" hidden></iframe>
         </div>
     );
 }

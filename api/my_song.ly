@@ -1,6 +1,6 @@
 \version "2.24.1"
 \header {
-    title = "ok ok ok"
+    title = "something"
     subtitle = ""
     composer = ""
 }
@@ -52,13 +52,16 @@ Segno = {
 
 \paper { left-margin = 0.75\in }
 
+\score {
 <<
 \new Staff \with {
-    instrumentName = "Synth "
-    shortInstrumentName = "Syn. "
-    midiInstrument = "synth"
+    instrumentName = "Tenor Sax "
+    shortInstrumentName = "T. S. "
+    midiInstrument = "tenor sax"
 } {
-    { c'4 d'4 e'4 f'4 }
+    { c'4 }
 }
 
 >>
+\midi { }
+}
