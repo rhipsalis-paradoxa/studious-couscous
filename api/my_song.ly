@@ -1,6 +1,6 @@
 \version "2.24.1"
 \header {
-    title = "something"
+    title = "ok"
     subtitle = ""
     composer = ""
 }
@@ -52,16 +52,34 @@ Segno = {
 
 \paper { left-margin = 0.75\in }
 
-\score {
 <<
+\new PianoStaff \with {
+    instrumentName = "Piano "
+    shortInstrumentName = "Pno. "
+    midiInstrument = "acoustic grand"
+} <<
+    \new Staff {
+        { c'1 }
+}
+    \new Staff {
+        \clef bass
+{ d1 }
+}
+>>
+
 \new Staff \with {
-    instrumentName = "Tenor Sax "
-    shortInstrumentName = "T. S. "
-    midiInstrument = "tenor sax"
+    instrumentName = "Flute "
+    shortInstrumentName = "Fl. "
+    midiInstrument = "flute"
 } {
-    { c'4 }
+    { e'1 }
+}
+\new Staff \with {
+    instrumentName = "Bassoon "
+    shortInstrumentName = "Bsn. "
+    midiInstrument = "bassoon"
+} {
+    { g'1 }
 }
 
 >>
-\midi { }
-}

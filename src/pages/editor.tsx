@@ -66,6 +66,37 @@ const Editor = () => {
     }
 
 
+    function handleCompile(event: React.SyntheticEvent<HTMLFormElement>) {
+        event.preventDefault();
+        updateProjectCode();
+        
+        // get user input
+        const form = event.target;
+        const formData = new FormData(form as HTMLFormElement);
+        const formJSON = Object.fromEntries(formData.entries());
+        const userInput = formJSON['code'];
+    
+        // PDF or MIDI
+        let submitter: HTMLElement | null = (event.nativeEvent as SubmitEvent).submitter;
+        let generate: string = "";
+        if (submitter == null) {
+            throw new Error("Invalid MusiCode form submission type.\n");
+        } else if (submitter.innerText == "Generate PDF") {
+            generate = "PDF";
+        } else if (submitter.innerText == "Generate MIDI") {
+            generate = "MIDI";
+        } else {
+            throw new Error("MusiCode cannot generate this kind of file.\n")
+        }
+    
+        fetch('http://localhost:5000/transpile', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({'user_input': userInput.toString(), 'generate': generate})
+        }).then(res => {return res.json().then(handleTranspiledData)});
+    }
+
+
     return (
         <div className={styles.editorPage}>
             <SideBar isOnEditor={true} updateProjectCode={updateProjectCode}/>
@@ -74,7 +105,7 @@ const Editor = () => {
             </div>
             <div className={styles.input}>
                 <form id="userInputForm" method="post" onSubmit={handleCompile} action="http://localhost:5000/transpile" >
-                    <textarea className={styles.editor} name="userInput" onChange={handleChange} value={code}/>
+                    <textarea className={styles.editor} name="code" onChange={handleChange} value={code}/>
                     <p id="transpiler_error"></p>
                 </form>
             </div>
@@ -87,53 +118,11 @@ const Editor = () => {
                     <Page pageNumber={pageNumber} />
                 </Document>
                 <iframe src="./my_song.mid" hidden></iframe>
-                {/* <iframe
-                title="file"
-                style={{ width: '100%', height: '100%' }}
-                src="/my_song.pdf"
-                    /> */}
             </div>
         </div>
-    ); 
-
-
+    );
 }
-        {/* <p>
-            Page {pageNumber} of {numPages}
-        </p> */}
-            {/* <Document file={"./my_song.pdf"} onLoadSuccess={onDocumentLoadSuccess}>
-        <Page pageNumber={pageNumber} />
-    </Document> */}
 
-
-
-function handleCompile(event: React.SyntheticEvent<HTMLFormElement>) {
-    event.preventDefault();
-    // get user input
-    const form = event.target;
-    const formData = new FormData(form as HTMLFormElement);
-    const formJSON = Object.fromEntries(formData.entries());
-    const userInput = formJSON['userInput'];
-
-    // PDF or MIDI
-    let submitter: HTMLElement | null = (event.nativeEvent as SubmitEvent).submitter;
-    let generate: string = "";
-    if (submitter == null) {
-        throw new Error("Invalid MusiCode form submission type.\n");
-    } else if (submitter.innerText == "Generate PDF") {
-        generate = "PDF";
-    } else if (submitter.innerText == "Generate MIDI") {
-        generate = "MIDI";
-    } else {
-        throw new Error("MusiCode cannot generate this kind of file.\n")
-    }
-
-    fetch('http://localhost:5000/transpile', {
-        method: 'POST',
-        headers: {'Content-Type': 'application/json'},
-        body: JSON.stringify({'user_input': userInput.toString(), 'generate': generate})
-    }).then(res => {return res.json().then(handleTranspiledData)});
-}
 
 function handleTranspiledData(data: any) {
     document.getElementById('transpiler_error')!.innerText = data['error'];
