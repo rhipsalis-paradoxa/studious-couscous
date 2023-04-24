@@ -74,12 +74,5 @@ Segno = {
 } {
     { e'1 }
 }
-\new Staff \with {
-    instrumentName = "Bassoon "
-    shortInstrumentName = "Bsn. "
-    midiInstrument = "bassoon"
-} {
-    { g'1 }
-}
 
 >>

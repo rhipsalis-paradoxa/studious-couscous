@@ -69,7 +69,7 @@ const Editor = () => {
     function handleCompile(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         updateProjectCode();
-        
+
         // get user input
         const form = event.target;
         const formData = new FormData(form as HTMLFormElement);
@@ -112,12 +112,14 @@ const Editor = () => {
             <div className={styles.buttonHeader}>
                 <button className={buttonStyles.lineButton} name="PDFbutton" type="submit" form="userInputForm"> Generate PDF </button>
                 <button className={buttonStyles.lineButton}name="MIDIbutton" type="submit" form="userInputForm"> Generate MIDI </button>
+                <button className={buttonStyles.lineButton} name="MCbutton" type="submit"> Download MusiCode </button>
+                <button className={buttonStyles.lineButton}name="LYbutton" type="submit"> Download LilyPond </button>
             </div>
             <div className={styles.output}>
                 <Document file={"./my_song.pdf"} onLoadSuccess={onDocumentLoadSuccess}>
                     <Page pageNumber={pageNumber} />
                 </Document>
-                <iframe src="./my_song.mid" hidden></iframe>
+                <audio src="./my_song.mid" hidden></audio>
             </div>
         </div>
     );
@@ -126,6 +128,9 @@ const Editor = () => {
 
 function handleTranspiledData(data: any) {
     document.getElementById('transpiler_error')!.innerText = data['error'];
+    if (data['midi']) {
+        window.location.replace("./my_song.mid");
+    }
 }
 
 export default Editor;
