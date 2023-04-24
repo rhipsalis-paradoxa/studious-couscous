@@ -7,6 +7,8 @@
 
 .input {
   height: 100vh;
+  width: 100%;
+  grid-area: editor;
 }
 
 .editorPage {
@@ -21,7 +23,7 @@
   justify-content: stretch;
   overflow-x: hidden;
   grid-template-columns: [left] 14em [vert-div] repeat(2, minmax(200px, 1fr));
-  grid-template-areas: "nav bar bar" "nav header header" "nav editor output";
+  grid-template-areas: "nav bar bar" "nav editor header" "nav editor output";
 }
 
 .projectTitle {
@@ -30,7 +32,8 @@
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
   font-size: 1.1em;
   grid-area: bar;
-  padding: 2rem;
+  padding: 1.5rem;
+  overflow: none;
   justify-content: start;
 }
 
@@ -42,6 +45,20 @@
   margin: auto;
   width: 38%;
   float: left;
+}
+
+.output {
+  height: 100vh;
+  width: 100%;
+  grid-area: output;
+}
+
+.buttonHeader {
+  grid-area: header;
+  display: flex;
+  justify-content: space-around;
+  background-color: #303F9F;
+  height: 100%;
 }
 
 /*# sourceMappingURL=editor.module.css.map */

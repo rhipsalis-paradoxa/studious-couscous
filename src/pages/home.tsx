@@ -46,7 +46,6 @@ const Home = () => {
     // delete a project by filtering it out with the ID
     const deleteProject = (toDelete: ProjectProp) => {
         // filter out the project to delete 
-        console.log(toDelete)
         const updatedProjects: ProjectProp[] = (projects.filter((proj: ProjectProp) => proj.id != toDelete.id))
 
         localStorage.setItem('projects', JSON.stringify(updatedProjects));
@@ -89,15 +88,13 @@ const Home = () => {
         }))
 
         updatedProjects = updatedProjects.sort(sortDate)
-
-        console.log(updatedProjects);
         localStorage.setItem('projects', JSON.stringify(updatedProjects));
         setProjects(updatedProjects)
     }
 
 
-	const handleCreateAndAdd = (title: string) => {
-		addProject(title);
+	const handleCreateAndAdd = (title: string, id:string) => {
+		addProject(title, id);
 	}
 
 	const closeModal = () => {
@@ -110,13 +107,13 @@ const Home = () => {
         Adds it to local storage 
         Adds it to list 
      */
-    const addProject = (title: string) => {
+    const addProject = (title: string, id: string) => {
 
         const updatedProjects: ProjectProp[] = [
             {
                 name: title, 
                 dateLastModified: new Date(),
-                id: uuidv4().toString(),
+                id: id,
                 code: ""
             },
             ...projects

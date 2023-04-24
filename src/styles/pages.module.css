@@ -25,7 +25,7 @@
   justify-content: stretch;
   overflow-x: hidden;
   grid-template-columns: [left] 14em [vert-div] repeat(2, minmax(200px, 1fr));
-  grid-template-areas: "nav bar bar" "nav header header" "nav editor output";
+  grid-template-areas: "nav bar bar" "nav editor header" "nav editor output";
 }
 
 /*# sourceMappingURL=pages.module.css.map */

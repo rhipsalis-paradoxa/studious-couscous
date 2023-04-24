@@ -3,11 +3,12 @@ import styles from "../styles/modal.module.css"
 import ActionButton from "./actionButton";
 import { useNavigate } from "react-router-dom";
 import { ProjectProp } from "./projects";
+import { v4 as uuidv4 } from 'uuid';
 
 interface ModalProps {
     show: boolean;
     handleClose: () => void;
-    handleAddProject?: (title:string) => void
+    handleAddProject?: (title:string, id:string) => void
     handleCopy?: (project: ProjectProp, title: string) => void 
     handleRename?: (project: ProjectProp, title: string) => void
     isCopy?: boolean
@@ -26,6 +27,7 @@ type modalInformation = {
 const Modal = ({show, handleClose, handleAddProject, handleCopy, handleRename, isCopy, isRename, project}: ModalProps) => {
 
     const [title, setTitle] = React.useState('')
+    const [error, showError] = React.useState(false)
 
     const handleChange = (event: any) => {
         setTitle(event.target.value);
@@ -34,12 +36,18 @@ const Modal = ({show, handleClose, handleAddProject, handleCopy, handleRename, i
     const navigate = useNavigate();
 
     const addAndNavigate = () => {
-        console.log(title);
-        const path = "/editor/" + title;
+        if (title.length < 1) {
+
+            navigate("/")
+            return;
+        }
+        const id = uuidv4().toString()
+        const path = "/editor/" + title + "/" + id;
+
         if (isCopy) {
             handleCopy!(project!, title)
         } else {
-            handleAddProject!(title)
+            handleAddProject!(title, id)
         }
 
         setTitle('');
@@ -101,8 +109,8 @@ const Modal = ({show, handleClose, handleAddProject, handleCopy, handleRename, i
                         <input className={styles.input} name="project-title" placeholder="Enter a project name..." value={title} onChange={handleChange}/>
                         </div>
                         <div className={styles.footer}>
-                            <ActionButton handleClick={ModalInfo.buttonDeny} text={ModalInfo.buttonDenyText} inline={true}/> 
-                            <ActionButton handleClick={ModalInfo.buttonConfirm} text={ModalInfo.buttonConfirmText} inline={true}/>
+                            <ActionButton handleClick={ModalInfo.buttonConfirm} text={ModalInfo.buttonConfirmText}/>
+                            <ActionButton handleClick={ModalInfo.buttonDeny} text={ModalInfo.buttonDenyText}/> 
                         </div>
                     </div> 
                 </div>

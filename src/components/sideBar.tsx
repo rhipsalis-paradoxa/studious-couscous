@@ -12,7 +12,7 @@ interface sideBarProps {
     isOnEditor?: boolean
 	isOnDeleted?: boolean
 	openModal?: () => void,
-	addNewProject?: (projectTitle: string)  => void,
+	addNewProject?: (projectTitle: string, id: string)  => void,
 	updateProjectCode?: () => void
 }
 

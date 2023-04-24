@@ -1,6 +1,5 @@
 import React from "react";
-import styles from "./button.module.css"
-import { useNavigate } from "react-router-dom";
+import styles from "../styles/button.module.css";
 
 export interface buttonProps {
     handleClick: () => void;
@@ -9,11 +8,9 @@ export interface buttonProps {
 }
 
 const ActionButton = ({handleClick, text, inline}: buttonProps) => {
-
-    const style = inline ? styles.inlineButton : styles.navButton
     return (
-        <button className={styles.borkButton}
-                onClick={() => handleClick()}> {text} </button>
+        <button id={styles.navButton}
+                onClick={() => handleClick()}> {text}</button>
     );
 } 
 
