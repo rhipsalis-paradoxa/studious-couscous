@@ -11,8 +11,6 @@ import buttonStyles from "../styles/button.module.css";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
-// if this is a page we have to pass the info in 
-// as a param along with the route  
 const Editor = () => {
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
@@ -21,10 +19,6 @@ const Editor = () => {
         setNumPages(numPages);
       }
     const { title, id } = useParams();
-
-    // const projects = JSON.parse(localStorage.getItem('projects')!)
-    // const theProject = projects.find((proj: ProjectProp) => proj.id == id);
-    // const currentProject = 
 
     const [code, setCode] = React.useState(() => {
         // save all projects in local storage so we don't lose everything.... 
@@ -66,34 +60,56 @@ const Editor = () => {
     }
 
 
-    function handleCompile(event: React.SyntheticEvent<HTMLFormElement>) {
-        event.preventDefault();
+    // function handleCompile(event: React.SyntheticEvent<HTMLFormElement>) {
+    //     event.preventDefault();
+    //     updateProjectCode();
+
+    //     // get user input
+    //     const form = event.target;
+    //     const formData = new FormData(form as HTMLFormElement);
+    //     const formJSON = Object.fromEntries(formData.entries());
+    //     const userInput = formJSON['code'];
+    
+    //     // PDF or MIDI
+    //     let submitter: HTMLElement | null = (event.nativeEvent as SubmitEvent).submitter;
+    //     let generate: string = "";
+    //     if (submitter == null) {
+    //         throw new Error("Invalid MusiCode form submission type.\n");
+    //     } else if (submitter.innerText == "Generate PDF") {
+    //         generate = "PDF";
+    //     } else if (submitter.innerText == "Generate MIDI") {
+    //         generate = "MIDI";
+    //     } else {
+    //         throw new Error("MusiCode cannot generate this kind of file.\n")
+    //     }
+
+    //     fetch('http://localhost:5000/transpile', {
+    //         method: 'POST',
+    //         headers: {'Content-Type': 'application/json'},
+    //         body: JSON.stringify({'user_input': userInput.toString(), 'generate': generate})
+    //     }).then((res => res.json()), (() => alert("WAHT THE FUCK? res didnt json"))).then(handleTranspiledData, (() => alert("shit is still failing")));
+    // }
+
+    const handleGeneratePDF = () => {
+        // event.preventDefault();
         updateProjectCode();
 
-        // get user input
-        const form = event.target;
-        const formData = new FormData(form as HTMLFormElement);
-        const formJSON = Object.fromEntries(formData.entries());
-        const userInput = formJSON['code'];
-    
-        // PDF or MIDI
-        let submitter: HTMLElement | null = (event.nativeEvent as SubmitEvent).submitter;
-        let generate: string = "";
-        if (submitter == null) {
-            throw new Error("Invalid MusiCode form submission type.\n");
-        } else if (submitter.innerText == "Generate PDF") {
-            generate = "PDF";
-        } else if (submitter.innerText == "Generate MIDI") {
-            generate = "MIDI";
-        } else {
-            throw new Error("MusiCode cannot generate this kind of file.\n")
-        }
-    
         fetch('http://localhost:5000/transpile', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'user_input': userInput.toString(), 'generate': generate})
-        }).then(res => {return res.json().then(handleTranspiledData)});
+            body: JSON.stringify({'user_input': code.toString(), 'generate': "PDF"})
+        }).then((res => res.json()), (() => alert("WAHT THE FUCK? res didnt json in pdf"))).then(handleTranspiledData, (() => alert("shit is still failing in pdf")));
+    }
+
+    const handleGenerateMIDI = () => {
+        // event.preventDefault();
+        updateProjectCode();
+
+        fetch('http://localhost:5000/transpile', {
+            method: 'POST',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({'user_input': code.toString(), 'generate': "MIDI"})
+        }).then((res => res.json()), ((reason) => alert("WAHT THE FUCK? res didnt json in midi" + reason.toString()))).then(handleTranspiledData, ((reason) => alert("shit is still failing in midi "+ reason.toString())));
     }
 
 
@@ -104,14 +120,14 @@ const Editor = () => {
                 <div className={styles.projectText}>{title}</div>
             </div>
             <div className={styles.input}>
-                <form id="userInputForm" method="post" onSubmit={handleCompile} action="http://localhost:5000/transpile" >
+                <form id="userInputForm" method="post" >
                     <textarea className={styles.editor} name="code" onChange={handleChange} value={code}/>
                     <p id="transpiler_error"></p>
                 </form>
             </div>
             <div className={styles.buttonHeader}>
-                <button className={buttonStyles.lineButton} name="PDFbutton" type="submit" form="userInputForm"> Generate PDF </button>
-                <button className={buttonStyles.lineButton}name="MIDIbutton" type="submit" form="userInputForm"> Generate MIDI </button>
+                <button className={buttonStyles.lineButton} name="PDFbutton" type="button" onClick={handleGeneratePDF}> Generate PDF </button>
+                <button className={buttonStyles.lineButton}name="MIDIbutton" type="button" onClick={handleGenerateMIDI}> Generate MIDI </button>
                 <button className={buttonStyles.lineButton} name="MCbutton" type="submit"> Download MusiCode </button>
                 <button className={buttonStyles.lineButton}name="LYbutton" type="submit"> Download LilyPond </button>
             </div>
@@ -119,7 +135,6 @@ const Editor = () => {
                 <Document file={"./my_song.pdf"} onLoadSuccess={onDocumentLoadSuccess}>
                     <Page pageNumber={pageNumber} />
                 </Document>
-                <audio src="./my_song.mid" hidden></audio>
             </div>
         </div>
     );
@@ -127,9 +142,14 @@ const Editor = () => {
 
 
 function handleTranspiledData(data: any) {
+    console.log(data);
+    console.log(data['midi']);
+    alert(data);
     document.getElementById('transpiler_error')!.innerText = data['error'];
+    
     if (data['midi']) {
-        window.location.replace("./my_song.mid");
+        window.open("http://localhost:3000/my_song.mid", "_blank")!;
+        console.log("inmidi");
     }
 }
 

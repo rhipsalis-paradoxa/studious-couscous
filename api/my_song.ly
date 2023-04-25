@@ -52,6 +52,7 @@ Segno = {
 
 \paper { left-margin = 0.75\in }
 
+\score {
 <<
 \new PianoStaff \with {
     instrumentName = "Piano "
@@ -74,5 +75,14 @@ Segno = {
 } {
     { e'1 }
 }
+\new Staff \with {
+    instrumentName = "French Horn "
+    shortInstrumentName = "Hn. "
+    midiInstrument = "french horn"
+} {
+    { f'4 g'4 a'4 }
+}
 
 >>
+\midi { }
+}

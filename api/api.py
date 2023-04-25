@@ -1,4 +1,4 @@
-from flask import Flask, request, Response, jsonify
+from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
 from pyth import transpiler
@@ -6,7 +6,7 @@ import pathlib
 
 
 app = Flask(__name__)
-cors = CORS(app, resources={r'/transpile': {'origins': '*'}})
+cors = CORS(app, resources={r'/*': {'origins': '*'}})
 
 @app.route('/', methods=['GET'])
 def flask_landing_page():
@@ -35,4 +35,7 @@ def flask_transpile_page():
         # ly_exec = "/usr/local/bin/lilypond" # TODO: detect lilypond dynamically
         os.system('"' + str(ly_exec) + '" -o ../public/my_song my_song.ly')
     finally:
-        return {'midi': is_midi, 'error': error}
+        response = jsonify({'midi': is_midi, 'error': error})
+        response.headers.add("Access-Control-Allow-Origin", "*")
+        response.headers.add("Access-Control-Allow-Header", "*")
+        return response
