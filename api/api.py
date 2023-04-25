@@ -16,6 +16,7 @@ def flask_landing_page():
 def flask_transpile_page():
     # musicode -> lilypond
     user_input = request.get_json()['user_input']
+    project_title = request.get_json()['project_title']
     is_midi = True
     if request.get_json()['generate'] == "PDF":
         is_midi = False
@@ -26,14 +27,16 @@ def flask_transpile_page():
     except Exception as e:
         error = str(e)
     else:
-        with open('my_song.ly', 'w') as f:
+        with open(project_title + '.ly', 'w') as f:
             f.write(ly_code)
 
         # lilypond -> PDF/MIDI
         ly_exec = pathlib.Path(__file__).parents[1]
         ly_exec = ly_exec.joinpath('lilypond-2.24.1', 'bin', 'lilypond.exe').resolve()
         # ly_exec = "/usr/local/bin/lilypond" # TODO: detect lilypond dynamically
-        os.system('"' + str(ly_exec) + '" -o ../public/my_song my_song.ly')
+        command = '"' + str(ly_exec) + f'" -o ../public/{project_title} {project_title}.ly'
+        print(command)
+        os.system(command)
     finally:
         response = jsonify({'midi': is_midi, 'error': error})
         response.headers.add("Access-Control-Allow-Origin", "*")

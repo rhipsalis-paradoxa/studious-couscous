@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 
-'''
-This version of the transpiler can only handle treble-clef music in 4/4
-with one part. It currently only supports a score title, composer, and 
-pitches and rhythms (no additional markings).
-'''
 
 import lark
 import sys 

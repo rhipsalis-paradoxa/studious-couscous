@@ -19,6 +19,7 @@ const Editor = () => {
         setNumPages(numPages);
       }
     const { title, id } = useParams();
+    const snake_title = title!.replace(" ", "_");
 
     const [code, setCode] = React.useState(() => {
         // save all projects in local storage so we don't lose everything.... 
@@ -97,7 +98,7 @@ const Editor = () => {
         fetch('http://localhost:5000/transpile', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'user_input': code.toString(), 'generate': "PDF"})
+            body: JSON.stringify({'user_input': code.toString(), 'generate': "PDF", 'project_title': snake_title})
         }).then((res => res.json()), (() => alert("WAHT THE FUCK? res didnt json in pdf"))).then(handleTranspiledData, (() => alert("shit is still failing in pdf")));
     }
 
@@ -108,7 +109,7 @@ const Editor = () => {
         fetch('http://localhost:5000/transpile', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'user_input': code.toString(), 'generate': "MIDI"})
+            body: JSON.stringify({'user_input': code.toString(), 'generate': "MIDI", "project_title": snake_title})
         }).then((res => res.json()), ((reason) => alert("WAHT THE FUCK? res didnt json in midi" + reason.toString()))).then(handleTranspiledData, ((reason) => alert("shit is still failing in midi "+ reason.toString())));
     }
 
@@ -132,25 +133,26 @@ const Editor = () => {
                 <button className={buttonStyles.lineButton}name="LYbutton" type="submit"> Download LilyPond </button>
             </div>
             <div className={styles.output}>
-                <Document file={"./my_song.pdf"} onLoadSuccess={onDocumentLoadSuccess}>
+                <Document file={"./" + snake_title + ".pdf"} onLoadSuccess={onDocumentLoadSuccess}>
                     <Page pageNumber={pageNumber} />
                 </Document>
             </div>
         </div>
     );
-}
 
-
-function handleTranspiledData(data: any) {
-    console.log(data);
-    console.log(data['midi']);
-    alert(data);
-    document.getElementById('transpiler_error')!.innerText = data['error'];
     
-    if (data['midi']) {
-        window.open("http://localhost:3000/my_song.mid", "_blank")!;
-        console.log("inmidi");
+    function handleTranspiledData(data: any) {
+        console.log(data);
+        console.log(data['midi']);
+        alert(data);
+        document.getElementById('transpiler_error')!.innerText = data['error'];
+        
+        if (data['midi']) {
+            window.open("http://localhost:3000/" + snake_title + ".mid", "_blank")!;
+            console.log("inmidi");
+        }
     }
 }
+
 
 export default Editor;
