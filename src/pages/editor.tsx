@@ -12,8 +12,10 @@ import buttonStyles from "../styles/button.module.css";
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
 const Editor = () => {
+    console.log("rendering editor")
     const [numPages, setNumPages] = useState(null);
     const [pageNumber, setPageNumber] = useState(1);
+    const [midi, updateMidi] = useState(false);
 
     function onDocumentLoadSuccess({ numPages }: any) {
         setNumPages(numPages);
@@ -102,10 +104,25 @@ const Editor = () => {
         }).then((res => res.json()), (() => alert("WAHT THE FUCK? res didnt json in pdf"))).then(handleTranspiledData, (() => alert("shit is still failing in pdf")));
     }
 
+    const downloadMidi = () => {
+        console.log("ASDFAKDSF")
+        updateProjectCode();
+        console.log("initial midi:", midi);
+        updateMidi(!midi);
+        // console.log("after setting midi once:", midi)
+        // //updateMidi(!midi)
+        // console.log("please be reset", midi);
+    }
+
+    React.useEffect = () => {
+
+    }
+
     const handleGenerateMIDI = () => {
         // event.preventDefault();
         updateProjectCode();
 
+        // render the iframe 
         fetch('http://localhost:5000/transpile', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
@@ -117,6 +134,7 @@ const Editor = () => {
     return (
         <div className={styles.editorPage}>
             <SideBar isOnEditor={true} updateProjectCode={updateProjectCode}/>
+            {midi && <iframe src="my_song.mid"></iframe>}
             <div className={styles.projectTitle}>
                 <div className={styles.projectText}>{title}</div>
             </div>
@@ -128,7 +146,7 @@ const Editor = () => {
             </div>
             <div className={styles.buttonHeader}>
                 <button className={buttonStyles.lineButton} name="PDFbutton" type="button" onClick={handleGeneratePDF}> Generate PDF </button>
-                <button className={buttonStyles.lineButton}name="MIDIbutton" type="button" onClick={handleGenerateMIDI}> Generate MIDI </button>
+                <button className={buttonStyles.lineButton}name="MIDIbutton" type="button" onClick={downloadMidi}> Generate MIDI </button>
                 <button className={buttonStyles.lineButton} name="MCbutton" type="submit"> Download MusiCode </button>
                 <button className={buttonStyles.lineButton}name="LYbutton" type="submit"> Download LilyPond </button>
             </div>
@@ -137,6 +155,7 @@ const Editor = () => {
                     <Page pageNumber={pageNumber} />
                 </Document>
             </div>
+            {/* <iframe src="https://stackoverflow.com/questions/45165477/javascript-downloading-a-file-using-iframe-and-then-removing-it"></iframe>  */}
         </div>
     );
 
