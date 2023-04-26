@@ -115,10 +115,6 @@ const Editor = () => {
         // console.log("please be reset", midi);
     }
 
-    React.useEffect = () => {
-
-    }
-
     const handleGenerateMIDI = () => {
         // event.preventDefault();
         updateProjectCode();
