@@ -2,7 +2,7 @@
 An intermediate representation of MusiCode code.
 '''
 
-from pyth import databases
+from mc_transpiler import databases
 import sys
 
 MC_TO_LILY_MODIFIERS_PRE = databases.mc_to_lily_pre_note_modifiers 

@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
 import os
-from pyth import transpiler
+from mc_transpiler import transpiler
 import pathlib
 
 
@@ -31,14 +31,16 @@ def flask_transpile_page():
             f.write(ly_code)
 
         # lilypond -> PDF/MIDI
-        ly_exec = pathlib.Path(__file__).parents[1]
+        ly_exec = pathlib.Path(__file__).parent
         ly_exec = ly_exec.joinpath('lilypond-2.24.1', 'bin', 'lilypond.exe').resolve()
         # ly_exec = "/usr/local/bin/lilypond" # TODO: detect lilypond dynamically
-        command = '"' + str(ly_exec) + f'" -o ../public/{project_title} {project_title}.ly'
-        print(command)
-        os.system(command)
+        command1 = '"' + str(ly_exec) + f'" -o ../build/{project_title} {project_title}.ly'
+        command2 = '"' + str(ly_exec) + f'" -o ../public/{project_title} {project_title}.ly'
+        os.system(command1)
+        os.system(command2)
     finally:
         response = jsonify({'midi': is_midi, 'error': error})
-        response.headers.add("Access-Control-Allow-Origin", "*")
-        response.headers.add("Access-Control-Allow-Header", "*")
+        # response.headers.add("Access-Control-Allow-Origin", "*")
+        # response.headers.add("Access-Control-Allow-Headers", "*")
+        # response.headers.add("Access-Control-Allow-Methods", "POST, PUT, PATCH, GET, DELETE, OPTIONS")
         return response

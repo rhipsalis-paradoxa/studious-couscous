@@ -9,7 +9,7 @@ from lark import Transformer
 
 import math 
 
-from pyth import mc_ast
+from mc_transpiler import mc_ast
 
 
 

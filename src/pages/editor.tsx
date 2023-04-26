@@ -1,6 +1,7 @@
 import React, { FormEventHandler, useState } from "react";
 import { Document, Page, pdfjs } from 'react-pdf/dist/esm/entry.webpack';
 import "react-pdf/dist/esm/Page/TextLayer.css";
+import "react-pdf/dist/esm/Page/AnnotationLayer.css"
 import { useParams } from "react-router-dom";
 import { ProjectProp } from "../components/projects";
 
@@ -126,8 +127,12 @@ const Editor = () => {
         fetch('http://localhost:5000/transpile', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({'user_input': code.toString(), 'generate': "MIDI", "project_title": snake_title})
-        }).then((res => res.json()), ((reason) => alert("WAHT THE FUCK? res didnt json in midi" + reason.toString()))).then(handleTranspiledData, ((reason) => alert("shit is still failing in midi "+ reason.toString())));
+            body: JSON.stringify({'user_input': code.toString(), 'generate': 'MIDI', 'project_title': snake_title})
+        })
+        .then((res => res.json()), 
+              ((reason) => alert("WAHT THE FUCK? res didnt json in midi" + reason.toString())))
+        .then(handleTranspiledData,
+              ((reason) => alert("shit is still failing in midi "+ reason.toString())));
     }
 
 
@@ -146,12 +151,12 @@ const Editor = () => {
             </div>
             <div className={styles.buttonHeader}>
                 <button className={buttonStyles.lineButton} name="PDFbutton" type="button" onClick={handleGeneratePDF}> Generate PDF </button>
-                <button className={buttonStyles.lineButton}name="MIDIbutton" type="button" onClick={downloadMidi}> Generate MIDI </button>
+                <button className={buttonStyles.lineButton}name="MIDIbutton" type="button" onClick={handleGenerateMIDI}> Generate MIDI </button>
                 <button className={buttonStyles.lineButton} name="MCbutton" type="submit"> Download MusiCode </button>
                 <button className={buttonStyles.lineButton}name="LYbutton" type="submit"> Download LilyPond </button>
             </div>
             <div className={styles.output}>
-                <Document file={"./" + snake_title + ".pdf"} onLoadSuccess={onDocumentLoadSuccess}>
+                <Document file={"http://localhost:3000/" + snake_title + ".pdf"} onLoadSuccess={onDocumentLoadSuccess}>
                     <Page pageNumber={pageNumber} />
                 </Document>
             </div>
@@ -161,14 +166,12 @@ const Editor = () => {
 
     
     function handleTranspiledData(data: any) {
-        console.log(data);
-        console.log(data['midi']);
-        alert(data);
         document.getElementById('transpiler_error')!.innerText = data['error'];
         
         if (data['midi']) {
-            window.open("http://localhost:3000/" + snake_title + ".mid", "_blank")!;
-            console.log("inmidi");
+            window.open("http://localhost:3000/" + snake_title + ".mid", "_blank")!.focus();
+        } else {
+            window.location.reload();
         }
     }
 }
