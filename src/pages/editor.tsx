@@ -91,7 +91,7 @@ const Editor = () => {
     //         method: 'POST',
     //         headers: {'Content-Type': 'application/json'},
     //         body: JSON.stringify({'user_input': userInput.toString(), 'generate': generate})
-    //     }).then((res => res.json()), (() => alert("WAHT THE FUCK? res didnt json"))).then(handleTranspiledData, (() => alert("shit is still failing")));
+    //     }).then((res => res.json())).then(handleTranspiledData));
     // }
 
     const handleGeneratePDF = () => {
@@ -102,7 +102,7 @@ const Editor = () => {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({'user_input': code.toString(), 'generate': "PDF", 'project_title': snake_title})
-        }).then((res => res.json()), (() => alert("WAHT THE FUCK? res didnt json in pdf"))).then(handleTranspiledData, (() => alert("shit is still failing in pdf")));
+        }).then((res => res.json())).then(handleTranspiledData);
     }
 
     const downloadMidi = () => {
@@ -125,10 +125,8 @@ const Editor = () => {
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({'user_input': code.toString(), 'generate': 'MIDI', 'project_title': snake_title})
         })
-        .then((res => res.json()), 
-              ((reason) => alert("WAHT THE FUCK? res didnt json in midi" + reason.toString())))
-        .then(handleTranspiledData,
-              ((reason) => alert("shit is still failing in midi "+ reason.toString())));
+        .then((res => res.json()))
+        .then(handleTranspiledData);
     }
 
 
@@ -148,8 +146,6 @@ const Editor = () => {
             <div className={styles.buttonHeader}>
                 <button className={buttonStyles.lineButton} name="PDFbutton" type="button" onClick={handleGeneratePDF}> Generate PDF </button>
                 <button className={buttonStyles.lineButton}name="MIDIbutton" type="button" onClick={handleGenerateMIDI}> Generate MIDI </button>
-                <button className={buttonStyles.lineButton} name="MCbutton" type="submit"> Download MusiCode </button>
-                <button className={buttonStyles.lineButton}name="LYbutton" type="submit"> Download LilyPond </button>
             </div>
             <div className={styles.output}>
                 <Document file={"http://localhost:3000/" + snake_title + ".pdf"} onLoadSuccess={onDocumentLoadSuccess}>

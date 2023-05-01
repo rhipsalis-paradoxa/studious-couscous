@@ -50,7 +50,6 @@ const RecentlyDeleted = () => {
 
     // delete a project by filtering it out with the ID
     const removeProject = (toRemove: ProjectProp) => {
-        console.log("getting rid of shit")
         const updatedProjects: ProjectProp[] = (deletedProjects.filter((proj: ProjectProp) => proj.id != toRemove.id))
 
         setDeletedProjects(updatedProjects)
