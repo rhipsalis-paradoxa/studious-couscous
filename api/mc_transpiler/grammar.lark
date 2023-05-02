@@ -6,9 +6,9 @@ _LBRACKET: "["
 _RBRACKET: "]"
 statement: _LPAREN (title | subtitle | composer | group | part) _RPAREN
 
-title: "title" "\"" WORD+ "\""
-subtitle: "subtitle" "\"" WORD+ "\""
-composer: "composer" "\"" WORD+ "\""
+title: "title" "\"" /[^"]+/ "\""
+subtitle: "subtitle" "\"" /[^"]+/ "\""
+composer: "composer" "\"" /[^"]+/ "\""
 group: "group" /begin|end/
 
 // part construction
