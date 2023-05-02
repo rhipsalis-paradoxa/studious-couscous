@@ -22,7 +22,7 @@ const Editor = () => {
         setNumPages(numPages);
       }
     const { title, id } = useParams();
-    const snake_title = title!.replace(" ", "_");
+    const snake_title = title!.replace(/ /g, "_");
 
     const [code, setCode] = React.useState(() => {
         // save all projects in local storage so we don't lose everything.... 
